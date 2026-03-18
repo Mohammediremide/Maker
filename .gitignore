@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Environment & Secrets
+.env
+*.env
+
+# Database (don't commit the live DB)
+*.db
+*.sqlite3
+
+# Uploads
+app/static/images/products/uploads/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Scripts (helper/debug scripts)
+app/fix_templates.py
+app/final_fix.py
+app/nuke_slashes.py

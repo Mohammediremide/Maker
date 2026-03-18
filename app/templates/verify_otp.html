@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Verify Account | Maker{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+  <div class="auth-card">
+    <div style="text-align: center; margin-bottom: 24px;">
+        <div style="background: #f68b1e; padding: 12px; border-radius: 8px; color: white; display: inline-block; font-size: 24px; font-weight: 900; line-height: 1;">J</div>
+        <span style="color: #282828; font-weight: 800; font-size: 24px; margin-left: 8px;">umia</span>
+    </div>
+    <h2 style="font-size: 20px; font-weight: 700; color: #282828;">Verify your email</h2>
+    <p style="font-size: 14px; margin-bottom: 24px; color: #75757a;">We sent a 6-digit code to <strong>{{ email }}</strong>.</p>
+    <form method="POST" class="auth-form">
+      <input type="hidden" name="email" value="{{ email }}" />
+      <div class="field">
+        <label>Enter 6-digit OTP</label>
+        <input type="text" name="code" maxlength="6" required placeholder="000000" style="text-align: center; font-size: 24px; letter-spacing: 8px;" />
+      </div>
+      <button class="solid-btn" type="submit">Verify Account</button>
+    </form>
+    <form method="POST" action="/resend-otp" class="auth-form" style="margin-top: 12px;">
+      <input type="hidden" name="email" value="{{ email }}" />
+      <button class="ghost-btn" type="submit">Resend code</button>
+    </form>
+    <p class="auth-alt">Wrong email? <a href="/signup">Sign up again</a></p>
+  </div>
+</section>
+{% endblock %}

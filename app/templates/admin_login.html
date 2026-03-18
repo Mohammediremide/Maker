@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+</head>
+<body>
+  <section class="auth-section">
+    <div class="auth-card">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="background: var(--primary); padding: 12px; border-radius: 8px; color: white; display: inline-block; font-size: 24px; font-weight: 900; line-height: 1;">M</div>
+        <span style="color: #282828; font-weight: 800; font-size: 24px; margin-left: 8px;">aker Admin</span>
+      </div>
+      <h2 style="font-size: 20px; font-weight: 700; color: #282828;">Admin Access</h2>
+      <p style="font-size: 14px; margin-bottom: 24px; color: var(--text-muted);">Enter your secure admin key.</p>
+      {% if error %}<div class="flash error" style="margin-bottom: 16px;">{{ error }}</div>{% endif %}
+      <form method="POST" class="auth-form">
+        <div class="field">
+          <label>Admin Key</label>
+          <input type="password" name="key" required placeholder="••••••••" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 4px;" />
+        </div>
+        <button class="solid-btn" type="submit" style="margin-top: 16px;">CONTINUE</button>
+      </form>
+    </div>
+  </section>
+</body>
+</html>

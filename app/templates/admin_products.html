@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Products{% endblock %}
+
+{% block content %}
+<div class="section-white" style="display: grid; grid-template-columns: 240px 1fr; gap: 32px; min-height: 600px; padding: 0;">
+  <aside style="background: var(--secondary); color: white; padding: 32px 16px;">
+    <h3 style="font-size: 14px; opacity: 0.6; margin-bottom: 24px;">MAKER ADMIN</h3>
+    <a href="/admin?key={{ key }}" style="display: block; color: rgba(255,255,255,0.7); text-decoration: none; padding: 12px; margin-bottom: 8px;">📊 Dashboard</a>
+    <a href="/admin/products?key={{ key }}" style="display: block; color: white; text-decoration: none; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 4px; border-left: 4px solid var(--primary); margin-bottom: 8px;">📦 Products</a>
+    <a href="/admin/orders?key={{ key }}" style="display: block; color: rgba(255,255,255,0.7); text-decoration: none; padding: 12px;">📑 Orders</a>
+    <hr style="opacity: 0.1; margin: 24px 0;">
+    <a href="/" style="display: block; color: rgba(255,255,255,0.7); text-decoration: none; padding: 12px;">🏠 Back to Store</a>
+  </aside>
+
+  <main style="padding: 32px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+      <div>
+        <h2 style="font-size: 24px;">Manage Products</h2>
+        <p style="color: var(--text-muted);">View, edit or delete products in your store.</p>
+      </div>
+      <a class="solid-btn" href="/admin/products/new?key={{ key }}" style="width: auto;">+ NEW PRODUCT</a>
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; border: 1px solid var(--border);">
+      <thead style="background: #f8f9fa; border-bottom: 2px solid var(--border);">
+        <tr style="text-align: left; font-size: 12px; text-transform: uppercase; color: var(--text-muted);">
+          <th style="padding: 16px;">Product</th>
+          <th style="padding: 16px;">Price</th>
+          <th style="padding: 16px;">Tag</th>
+          <th style="padding: 16px;">Featured</th>
+          <th style="padding: 16px; text-align: right;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr style="border-bottom: 1px solid var(--border); font-size: 14px;">
+          <td style="padding: 16px; display: flex; align-items: center; gap: 12px;">
+            <img src="{{ product.image if product.image.startswith('http') else url_for('static', filename='images/products/' ~ product.image) }}" alt="" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border);" />
+            <span style="font-weight: 700;">{{ product.name }}</span>
+          </td>
+          <td style="padding: 16px;">{{ format_price(product.price) }}</td>
+          <td style="padding: 16px;"><span style="background: var(--background); padding: 4px 8px; border-radius: 20px; font-size: 11px;">{{ product.tag }}</span></td>
+          <td style="padding: 16px;">
+            {% if product.featured %}
+              <span style="color: #2faf2f;">★ Yes</span>
+            {% else %}
+              <span style="color: var(--text-muted);">No</span>
+            {% endif %}
+          </td>
+          <td style="padding: 16px; text-align: right;">
+            <div style="display: flex; gap: 8px; justify-content: flex-end;">
+              <a href="/admin/products/{{ product.id }}/edit?key={{ key }}" style="color: var(--primary); font-weight: 700; text-decoration: none;">EDIT</a>
+              <form method="POST" action="/admin/products/{{ product.id }}/delete" onsubmit="return confirm('Kill this product?')">
+                <input type="hidden" name="key" value="{{ key }}" />
+                <button type="submit" style="background: none; border: none; color: #e74c3c; font-weight: 700; cursor: pointer; padding: 0; font-family: inherit; font-size: 14px;">DELETE</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </main>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Orders{% endblock %}
+
+{% block content %}
+<div class="section-white" style="display: grid; grid-template-columns: 240px 1fr; gap: 32px; min-height: 600px; padding: 0;">
+  <aside style="background: var(--secondary); color: white; padding: 32px 16px;">
+    <h3 style="font-size: 14px; opacity: 0.6; margin-bottom: 24px;">MAKER ADMIN</h3>
+    <a href="/admin?key={{ key }}" style="display: block; color: rgba(255,255,255,0.7); text-decoration: none; padding: 12px; margin-bottom: 8px;">📊 Dashboard</a>
+    <a href="/admin/products?key={{ key }}" style="display: block; color: rgba(255,255,255,0.7); text-decoration: none; padding: 12px; margin-bottom: 8px;">📦 Products</a>
+    <a href="/admin/orders?key={{ key }}" style="display: block; color: white; text-decoration: none; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 4px; border-left: 4px solid var(--primary); margin-bottom: 8px;">📑 Orders</a>
+    <hr style="opacity: 0.1; margin: 24px 0;">
+    <a href="/" style="display: block; color: rgba(255,255,255,0.7); text-decoration: none; padding: 12px;">🏠 Back to Store</a>
+  </aside>
+
+  <main style="padding: 32px;">
+    <div style="margin-bottom: 32px; border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+      <h2 style="font-size: 24px;">Track Orders</h2>
+      <p style="color: var(--text-muted);">Manage and fulfill customer orders.</p>
+    </div>
+
+    {% for order in orders %}
+    <div style="background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 24px;">
+      <div style="background: #f8f9fa; padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <span style="font-weight: 800; color: var(--primary);">ORDER #{{ order.id }}</span>
+          <span style="margin-left: 16px; font-size: 13px; color: var(--text-muted);">{{ order.created_at.split('.')[0] }}</span>
+        </div>
+        <div style="font-weight: 700;">{{ format_price(order.total) }}</div>
+      </div>
+      
+      <div style="padding: 16px;">
+        <div style="margin-bottom: 16px;">
+          <p style="font-size: 14px; font-weight: 700;">{{ order.full_name }}</p>
+          <p style="font-size: 12px; color: var(--text-muted);">{{ order.email }} | {{ order.phone }}</p>
+          <p style="font-size: 12px; color: var(--text-muted);">{{ order.address }}, {{ order.city }}</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; padding-top: 16px; border-top: 1px dashed var(--border);">
+          {% for item in items if item.order_id == order.id %}
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <img src="{{ item.image if item.image.startswith('http') else url_for('static', filename='images/products/' ~ item.image) }}" alt="" style="width: 32px; height: 32px; object-fit: cover; border-radius: 4px;" />
+            <div style="font-size: 12px;">
+              <strong>{{ item.name }}</strong>
+              <span style="color: var(--text-muted);">x{{ item.qty }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </main>
+</div>
+{% endblock %}

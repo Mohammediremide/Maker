@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section-white">
+  <h2>Image Test</h2>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div>
+      <p>External URL (LoremFlickr):</p>
+      <img src="https://loremflickr.com/400/400/dettol,health/all?lock=1" style="width: 200px; border: 1px solid red;" alt="Dettol Test" />
+    </div>
+    <div>
+      <p>Jinja logic test:</p>
+      {% set img = "https://loremflickr.com/400/400/soap/all?lock=2" %}
+      <img src="{{ img if 'http' in img else url_for('static', filename='images/products/' ~ img) }}" style="width: 200px; border: 1px solid blue;" alt="Jinja Test" />
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} | Maker{% endblock %}
+
+{% block content %}
+<div class="section-white" style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start;">
+  <div class="product-gallery" style="background: var(--background); border-radius: 4px; padding: 20px;">
+    <img src="{{ product.image if product.image.startswith('http') else url_for('static', filename='images/products/' ~ product.image) }}" alt="{{ product.name }}" style="width: 100%; border-radius: 4px;" />
+  </div>
+
+  <div class="product-info">
+    <h1 style="font-size: 24px; margin-bottom: 8px;">{{ product.name }}</h1>
+    <p style="color: var(--primary); font-size: 14px; margin-bottom: 16px;">Brand: {{ product.tag }} | Similar Products</p>
+    
+    <div style="padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 24px;">
+      <p style="font-size: 28px; font-weight: 900; color: #282828;">{{ format_price(product.price) }}</p>
+      <p style="font-size: 14px; text-decoration: line-through; color: var(--text-muted);">{{ format_price(product.price * 1.2) }}</p>
+      <span style="background: rgba(0, 65, 106, 0.1); color: var(--primary); font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 2px;">-20%</span>
+    </div>
+
+    <button class="solid-btn add-to-cart" 
+            data-id="{{ product.id }}" 
+            data-name="{{ product.name }}" 
+            data-price="{{ product.price }}" 
+            data-image="{{ product.image }}"
+            style="padding: 16px; font-size: 16px;">
+      ADD TO CART
+    </button>
+    
+    <div style="margin-top: 24px; font-size: 14px; color: #282828;">
+      <h3 style="font-size: 16px; margin-bottom: 12px;">PROMOTIONS</h3>
+      <p>🚚 Free delivery for orders above ₦20,000 in Lagos</p>
+      <p>🛡️ 7-day easy return policy</p>
+    </div>
+  </div>
+</div>
+
+<div class="section-white" style="margin-top: 16px;">
+  <h2 style="font-size: 18px; margin-bottom: 20px;">Verified Customer Reviews</h2>
+  
+  <div class="reviews-list" style="margin-bottom: 32px;">
+    {% if reviews %}
+      {% for review in reviews %}
+      <div style="padding: 16px; border-bottom: 1px solid var(--border);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <strong style="color: var(--primary);">{{ "★" * review.rating }}{{ "☆" * (5 - review.rating) }}</strong>
+          <span style="font-size: 12px; color: var(--text-muted);">{{ review.created_at.split('T')[0] }}</span>
+        </div>
+        <p style="font-size: 14px; font-weight: 700; color: #282828;">by {{ review.user_name }}</p>
+        <p style="font-size: 14px; color: #282828; margin-top: 8px;">{{ review.comment }}</p>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p style="color: var(--text-muted); font-size: 14px;">No reviews yet. Be the first to review!</p>
+    {% endif %}
+  </div>
+
+  <div class="add-review" style="background: var(--background); padding: 24px; border-radius: 4px;">
+    <h3 style="font-size: 16px; margin-bottom: 16px;">Leave a Review</h3>
+    <form action="/submit-review/{{ product.id }}" method="POST">
+      <div class="field">
+        <label>Rating</label>
+        <select name="rating" required style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 4px;">
+          <option value="5">5 - Excellent</option>
+          <option value="4">4 - Very Good</option>
+          <option value="3">3 - Good</option>
+          <option value="2">2 - Fair</option>
+          <option value="1">1 - Poor</option>
+        </select>
+      </div>
+      <div class="field" style="margin-top: 16px;">
+        <label>Your Comment</label>
+        <textarea name="comment" required style="width: 100%; height: 100px; padding: 12px; border: 1px solid var(--border); border-radius: 4px; font-family: inherit;"></textarea>
+      </div>
+      <button type="submit" class="solid-btn" style="margin-top: 16px; width: auto;">SUBMIT REVIEW</button>
+    </form>
+  </div>
+</div>
+
+{% if related %}
+<div class="section-white" style="margin-top: 16px;">
+  <h2 style="font-size: 18px; margin-bottom: 16px;">You may also like</h2>
+  <div class="product-grid">
+    {% for p in related %}
+    <div class="product-card" onclick="location.href='/product/{{ p.id }}'">
+      <div class="card-media">
+        <img src="{{ p.image if p.image.startswith('http') else url_for('static', filename='images/products/' ~ p.image) }}" alt="{{ p.name }}" />
+      </div>
+      <div class="card-body">
+        <p class="name">{{ p.name }}</p>
+        <p class="price">{{ format_price(p.price) }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

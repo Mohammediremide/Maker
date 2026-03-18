@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}The Journal | Maker{% endblock %}
+
+{% block content %}
+<div class="section-white">
+  <div class="section-title">
+    <h1 style="font-size: 20px;">The Journal</h1>
+    <p style="font-size: 14px; color: var(--text-muted);">Expert advice and shopping guides</p>
+  </div>
+
+  <div class="journal-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px;">
+    {% for article in articles %}
+    <article class="journal-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden;">
+      <div class="journal-media" style="height: 200px; background: #f1f1f1;">
+          <img src="{{ url_for('static', filename='images/hero.svg') }}" alt="Article Background" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.2;" />
+      </div>
+      <div class="journal-body" style="padding: 16px;">
+        <span style="font-size: 10px; font-weight: 800; color: var(--primary); text-transform: uppercase;">{{ article.tag }}</span>
+        <h3 style="font-size: 16px; margin: 8px 0;">{{ article.title }}</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">{{ article.excerpt }}</p>
+        <a href="#" style="font-size: 14px; font-weight: 700; color: var(--primary);">READ MORE</a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

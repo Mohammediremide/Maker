@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gather & Co. - Shop and Journal</title>
+  <meta name="description" content="A modern ecommerce blog blending curated products with thoughtful journal stories." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="#top">
+        <span class="logo-mark"></span>
+        <span class="logo-text">Gather & Co.</span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#shop">Shop</a>
+        <a href="#journal">Journal</a>
+        <a href="#collections">Collections</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <button class="ghost-btn">Sign in</button>
+        <button class="solid-btn">Cart (2)</button>
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">Curated goods + weekly journal</div>
+        <h1>Everyday essentials, collected with intention.</h1>
+        <p>
+          Gather & Co. is an ecommerce blog that pairs a thoughtful shop with stories from makers,
+          recipes, and slow-living guides. Buy less. Choose better. Live well.
+        </p>
+        <div class="hero-actions">
+          <button class="solid-btn">Shop the edit</button>
+          <button class="ghost-btn">Read the journal</button>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <h3>4.9</h3>
+            <p>Average rating</p>
+          </div>
+          <div>
+            <h3>2.6k</h3>
+            <p>Monthly readers</p>
+          </div>
+          <div>
+            <h3>48h</h3>
+            <p>Dispatch window</p>
+          </div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-grid">
+          <div class="product-chip">
+            <div class="chip-media sun"></div>
+            <div>
+              <p class="chip-title">Stoneware Pour Set</p>
+              <span>$48</span>
+            </div>
+          </div>
+          <div class="product-chip">
+            <div class="chip-media sage"></div>
+            <div>
+              <p class="chip-title">Coastal Linen Throw</p>
+              <span>$72</span>
+            </div>
+          </div>
+          <div class="product-chip">
+            <div class="chip-media rose"></div>
+            <div>
+              <p class="chip-title">Herbal Candle</p>
+              <span>$24</span>
+            </div>
+          </div>
+          <div class="product-chip">
+            <div class="chip-media clay"></div>
+            <div>
+              <p class="chip-title">Knife Roll</p>
+              <span>$96</span>
+            </div>
+          </div>
+        </div>
+        <div class="banner">
+          Free shipping over $75
+        </div>
+      </div>
+    </section>
+
+    <section class="trust">
+      <div class="trust-wrap">
+        <span>Featured in</span>
+        <div class="trust-logos">
+          <p>HomeField</p>
+          <p>Ritual</p>
+          <p>Makerly</p>
+          <p>Harvest</p>
+          <p>Quiet Living</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="shop" class="section">
+      <div class="section-head">
+        <div>
+          <h2>Featured from the shop</h2>
+          <p>A rotating edit of kitchen, home, and wellness pieces selected for texture and durability.</p>
+        </div>
+        <button class="ghost-btn">View all products</button>
+      </div>
+      <div class="product-grid">
+        <article class="product-card reveal">
+          <div class="card-media amber"></div>
+          <div class="card-body">
+            <h3>Ceramic Brew Kit</h3>
+            <p>Kitchen</p>
+            <span>$58</span>
+          </div>
+        </article>
+        <article class="product-card reveal">
+          <div class="card-media mint"></div>
+          <div class="card-body">
+            <h3>Botanical Soap Trio</h3>
+            <p>Wellness</p>
+            <span>$26</span>
+          </div>
+        </article>
+        <article class="product-card reveal">
+          <div class="card-media blush"></div>
+          <div class="card-body">
+            <h3>Stone Olive Board</h3>
+            <p>Home</p>
+            <span>$42</span>
+          </div>
+        </article>
+        <article class="product-card reveal">
+          <div class="card-media rust"></div>
+          <div class="card-body">
+            <h3>Handloom Apron</h3>
+            <p>Kitchen</p>
+            <span>$38</span>
+          </div>
+        </article>
+        <article class="product-card reveal">
+          <div class="card-media teal"></div>
+          <div class="card-body">
+            <h3>Linen Table Set</h3>
+            <p>Home</p>
+            <span>$64</span>
+          </div>
+        </article>
+        <article class="product-card reveal">
+          <div class="card-media sand"></div>
+          <div class="card-body">
+            <h3>Citrus Body Oil</h3>
+            <p>Wellness</p>
+            <span>$34</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="collections" class="section split">
+      <div class="split-content">
+        <h2>Seasonal collections built for real life</h2>
+        <p>
+          We partner with independent studios and small farms to bring in limited runs of goods.
+          Each collection comes with care guides, origin stories, and tips from the maker.
+        </p>
+        <ul class="bullet-list">
+          <li>Traceable materials and transparent pricing</li>
+          <li>Small batch craft with tactile finishes</li>
+          <li>Story-led product pages and tutorials</li>
+        </ul>
+        <button class="solid-btn">Explore collections</button>
+      </div>
+      <div class="split-card">
+        <div class="split-stack">
+          <div class="stack-card"></div>
+          <div class="stack-card"></div>
+          <div class="stack-card"></div>
+        </div>
+        <div class="split-note">New: Spring ritual kit</div>
+      </div>
+    </section>
+
+    <section id="journal" class="section">
+      <div class="section-head">
+        <div>
+          <h2>From the journal</h2>
+          <p>Essays, recipes, and interviews that bring the shop to life.</p>
+        </div>
+        <button class="ghost-btn">View all stories</button>
+      </div>
+      <div class="journal-grid">
+        <article class="journal-card reveal">
+          <div class="journal-media rose"></div>
+          <div class="journal-body">
+            <span>Guide</span>
+            <h3>How to build a calm morning ritual</h3>
+            <p>Simple cues and tactile objects that make mornings gentler.</p>
+          </div>
+        </article>
+        <article class="journal-card reveal">
+          <div class="journal-media amber"></div>
+          <div class="journal-body">
+            <span>Interview</span>
+            <h3>Meet the weaver behind our linen line</h3>
+            <p>A conversation about texture, time, and patience.</p>
+          </div>
+        </article>
+        <article class="journal-card reveal">
+          <div class="journal-media sage"></div>
+          <div class="journal-body">
+            <span>Recipe</span>
+            <h3>Citrus tea for slow afternoons</h3>
+            <p>A simple recipe to pair with the ceramic pour set.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="section about">
+      <div class="about-card">
+        <h2>More than a store</h2>
+        <p>
+          Gather & Co. is built for people who want fewer, better things. We curate long-lasting
+          essentials and pair them with stories that teach care, craft, and connection.
+        </p>
+        <div class="about-metrics">
+          <div>
+            <h3>120+</h3>
+            <p>Independent makers</p>
+          </div>
+          <div>
+            <h3>24</h3>
+            <p>Seasonal edits</p>
+          </div>
+          <div>
+            <h3>4.9</h3>
+            <p>Verified reviews</p>
+          </div>
+        </div>
+      </div>
+      <div class="about-list">
+        <div class="about-item reveal">
+          <h4>Thoughtful sourcing</h4>
+          <p>We prioritize transparent supply chains and fair wages.</p>
+        </div>
+        <div class="about-item reveal">
+          <h4>Made to last</h4>
+          <p>Timeless designs with durability at the center.</p>
+        </div>
+        <div class="about-item reveal">
+          <h4>Story-led products</h4>
+          <p>Every product page includes a maker story and care notes.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section testimonials">
+      <div class="testimonial">
+        <p>
+          "Finally, a shop that feels like a magazine. Every delivery is a small ritual."
+        </p>
+        <span>Amara, Lagos</span>
+      </div>
+      <div class="testimonial">
+        <p>
+          "Beautiful pieces, clear origin stories, and fast delivery. I am a repeat customer."
+        </p>
+        <span>James, Austin</span>
+      </div>
+    </section>
+
+    <section class="section newsletter" id="contact">
+      <div>
+        <h2>Get the weekly edit</h2>
+        <p>New arrivals, journal essays, and seasonal collections. No spam, just essentials.</p>
+      </div>
+      <form class="newsletter-form">
+        <input type="email" placeholder="you@email.com" required />
+        <button class="solid-btn" type="submit">Join the list</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <h3>Gather & Co.</h3>
+        <p>Curated goods and quiet stories for everyday living.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <a href="#shop">Kitchen</a>
+        <a href="#shop">Home</a>
+        <a href="#shop">Wellness</a>
+      </div>
+      <div>
+        <h4>Journal</h4>
+        <a href="#journal">Stories</a>
+        <a href="#journal">Guides</a>
+        <a href="#journal">Interviews</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="mailto:hello@gatherco.com">hello@gatherco.com</a>
+        <a href="#">Instagram</a>
+        <a href="#">Pinterest</a>
+      </div>
+    </div>
+    <p class="copyright">2026 Gather & Co. All rights reserved.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

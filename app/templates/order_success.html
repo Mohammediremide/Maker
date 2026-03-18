@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Order Success - Gather & Co.{% endblock %}
+
+{% block content %}
+<div class="section-white" style="text-align: center; max-width: 600px; margin: 40px auto; padding: 48px 24px;">
+  <div style="font-size: 64px; margin-bottom: 24px;">✅</div>
+  <h1 style="font-size: 28px; font-weight: 900; color: #2faf2f; margin-bottom: 8px;">Order Confirmed!</h1>
+  <p style="color: var(--text-muted); margin-bottom: 32px;">Thank you for shopping with Maker, <strong>{{ order.full_name }}</strong>. Your order <strong>#{{ order.id }}</strong> has been placed successfully.</p>
+  
+  <div style="background: var(--background); border-radius: 8px; padding: 24px; text-align: left; margin-bottom: 32px;">
+    <h3 style="font-size: 16px; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">ORDER DETAILS</h3>
+    {% for item in items %}
+    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+      <img src="{{ item.image if item.image.startswith('http') else url_for('static', filename='images/products/' ~ item.image) }}" alt="{{ item.name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;" />
+      <div style="flex: 1;">
+        <p style="font-size: 14px; font-weight: 700;">{{ item.name }}</p>
+        <p style="font-size: 12px; color: var(--text-muted);">{{ item.qty }} x {{ format_price(item.price) }}</p>
+      </div>
+    </div>
+    {% endfor %}
+    <div style="margin-top: 16px; padding-top: 16px; border-top: 2px solid var(--border); display: flex; justify-content: space-between;">
+      <span style="font-weight: 700;">TOTAL PAID</span>
+      <span style="font-weight: 900; color: var(--primary);">{{ format_price(order.total) }}</span>
+    </div>
+  </div>
+
+  <a href="/" class="solid-btn" style="width: auto; padding: 16px 40px;">CONTINUE SHOPPING</a>
+  <p style="font-size: 12px; color: var(--text-muted); margin-top: 24px;">A confirmation email has been sent to {{ order.email }}</p>
+</div>
+
+<script>
+  localStorage.removeItem("cart_items");
+</script>
+{% endblock %}

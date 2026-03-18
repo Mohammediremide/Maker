@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - Gather & Co.{% endblock %}
+
+{% block content %}
+<div class="section-white" style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: start;">
+  <div class="checkout-form-container">
+    <div style="margin-bottom: 24px;">
+      <h1 style="font-size: 24px; font-weight: 700;">Checkout Information</h1>
+      <p style="color: var(--text-muted); font-size: 14px;">Complete your details to place your order.</p>
+    </div>
+
+    <form method="POST" id="checkoutForm" class="auth-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div class="field" style="grid-column: span 2;">
+        <label>Full Name</label>
+        <input type="text" name="full_name" required placeholder="e.g. John Doe" />
+      </div>
+
+      <div class="field" style="grid-column: span 1;">
+        <label>Email Address</label>
+        <input type="email" name="email" required placeholder="e.g. john@example.com" />
+      </div>
+
+      <div class="field" style="grid-column: span 1;">
+        <label>Phone Number</label>
+        <input type="text" name="phone" required placeholder="e.g. +234 812 345 6789" />
+      </div>
+
+      <div class="field" style="grid-column: span 2;">
+        <label>Delivery Address</label>
+        <input type="text" name="address" required placeholder="Street address, apartment, etc." />
+      </div>
+
+      <div class="field" style="grid-column: span 2;">
+        <label>City / State</label>
+        <input type="text" name="city" required placeholder="e.g. Ikeja, Lagos" />
+      </div>
+
+      <input type="hidden" name="cart_json" id="cartJson" />
+
+      <button class="solid-btn" type="submit" style="grid-column: span 2; padding: 16px; margin-top: 24px; font-size: 16px; font-weight: 800;">
+        PLACE ORDER NOW
+      </button>
+    </form>
+  </div>
+
+  <div class="order-summary" style="background: var(--background); padding: 32px; border-radius: 8px; position: sticky; top: 100px;">
+    <h3 style="font-size: 18px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 12px;">ORDER SUMMARY</h3>
+    
+    <div id="checkoutItems" style="margin-bottom: 24px;"></div>
+    
+    <div style="border-top: 1px solid var(--border); padding-top: 16px;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+        <span style="color: var(--text-muted);">Subtotal</span>
+        <span id="checkoutSubtotal">₦0</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+        <span style="color: var(--text-muted);">Shipping</span>
+        <span style="color: #2faf2f; font-weight: 700;">FREE</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; border-top: 2px solid var(--border); padding-top: 16px;">
+        <span style="font-size: 18px; font-weight: 700;">TOTAL</span>
+        <strong id="checkoutTotal" style="font-size: 20px; color: var(--primary);">₦0</strong>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

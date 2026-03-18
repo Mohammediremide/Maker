@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Product{% endblock %}
+
+{% block content %}
+<div class="section-white" style="display: grid; grid-template-columns: 240px 1fr; gap: 32px; min-height: 600px; padding: 0;">
+  <aside style="background: var(--secondary); color: white; padding: 32px 16px;">
+    <h3 style="font-size: 14px; opacity: 0.6; margin-bottom: 24px;">MAKER ADMIN</h3>
+    <a href="/admin?key={{ key }}" style="display: block; color: rgba(255,255,255,0.7); text-decoration: none; padding: 12px; margin-bottom: 8px;">📊 Dashboard</a>
+    <a href="/admin/products?key={{ key }}" style="display: block; color: white; text-decoration: none; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 4px; border-left: 4px solid var(--primary); margin-bottom: 8px;">📦 Products</a>
+    <a href="/admin/orders?key={{ key }}" style="display: block; color: rgba(255,255,255,0.7); text-decoration: none; padding: 12px;">📑 Orders</a>
+    <hr style="opacity: 0.1; margin: 24px 0;">
+    <a href="/" style="display: block; color: rgba(255,255,255,0.7); text-decoration: none; padding: 12px;">🏠 Back to Store</a>
+  </aside>
+
+  <main style="padding: 32px;">
+    <div style="margin-bottom: 32px; border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+      <h2 style="font-size: 24px;">{{ 'Edit Product' if product else 'New Product' }}</h2>
+      <p style="color: var(--text-muted);">Define product information and inventory settings.</p>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="auth-form" style="max-width: 500px;">
+      <input type="hidden" name="key" value="{{ key }}" />
+
+      <div class="field">
+        <label>Product Name</label>
+        <input type="text" name="name" value="{{ product.name if product else '' }}" required placeholder="e.g. Classic Watch" />
+      </div>
+
+      <div class="field">
+        <label>Price (₦)</label>
+        <input type="number" name="price" value="{{ product.price if product else '' }}" required placeholder="e.g. 5000" />
+      </div>
+
+      <div class="field">
+        <label>Tag / Category</label>
+        <input type="text" name="tag" value="{{ product.tag if product else '' }}" required placeholder="e.g. Fashion" />
+      </div>
+
+      <div class="field">
+        <label>Select Existing Image</label>
+        <select name="image" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 4px;">
+          <option value="">Select image (optional)</option>
+          {% for img in images %}
+          <option value="{{ img }}" {% if product and product.image == img %}selected{% endif %}>{{ img }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Or Paste Image URL</label>
+        <input type="text" name="image_url" value="{{ product.image if product and product.image.startswith('http') else '' }}" placeholder="https://..." />
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Use a full image URL or leave empty to use a local image.</p>
+      </div>
+
+      <div class="field">
+        <label>Or Upload New Image</label>
+        <input type="file" name="image_file" accept=".png,.jpg,.jpeg,.webp" />
+      </div>
+
+      <div class="field" style="flex-direction: row; align-items: center; gap: 8px;">
+        <input type="checkbox" name="featured" id="featuredCheck" {% if product and product.featured %}checked{% endif %} style="width: auto;" />
+        <label for="featuredCheck" style="margin: 0;">Mark as Featured Product</label>
+      </div>
+
+      <button class="solid-btn" type="submit" style="margin-top: 24px; padding: 16px;">
+        {{ 'UPDATE PRODUCT' if product else 'CREATE PRODUCT' }}
+      </button>
+    </form>
+  </main>
+</div>
+{% endblock %}

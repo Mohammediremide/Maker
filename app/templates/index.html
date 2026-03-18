@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Maker | Online Shopping for Electronics, Fashion & more{% endblock %}
+
+{% block content %}
+<div class="home-container">
+  <aside class="sidebar-nav">
+    <a href="/shop?tag=Supermarket" class="sidebar-link">🛒 Supermarket</a>
+    <a href="/shop?tag=Health" class="sidebar-link">💄 Health & Beauty</a>
+    <a href="/shop?tag=Home" class="sidebar-link">🏠 Home & Office</a>
+    <a href="/shop?tag=Phones" class="sidebar-link">📱 Phones & Tablets</a>
+    <a href="/shop?tag=Computing" class="sidebar-link">💻 Computing</a>
+    <a href="/shop?tag=Electronics" class="sidebar-link">📺 Electronics</a>
+    <a href="/shop?tag=Fashion" class="sidebar-link">👕 Fashion</a>
+    <a href="/shop?tag=Baby" class="sidebar-link">👶 Baby Products</a>
+    <a href="/shop?tag=Gaming" class="sidebar-link">🎮 Gaming</a>
+    <a href="/shop?tag=Sporting" class="sidebar-link">⚽ Sporting Goods</a>
+  </aside>
+
+  <section class="main-banner">
+    <img src="{{ url_for('static', filename='images/hero.svg') }}" alt="Main Banner" />
+    <div class="banner-content">
+      <h2>Stay Ahead of the Deals</h2>
+      <p>Up to 50% off on premium essentials</p>
+      <a href="/shop" class="solid-btn" style="width: auto; margin-top: 16px;">SHOP NOW</a>
+    </div>
+  </section>
+
+  <aside class="promo-cards">
+    <div class="promo-card">
+      <h3 style="font-size: 14px; margin-bottom: 8px;">HELP CENTER</h3>
+      <p style="font-size: 11px; color: var(--text-muted);">Guide to customer care</p>
+    </div>
+    <div class="promo-card">
+      <h3 style="font-size: 14px; margin-bottom: 8px;">EASY RETURN</h3>
+      <p style="font-size: 11px; color: var(--text-muted);">Up to 7 days</p>
+    </div>
+    <div class="promo-card">
+      <h3 style="font-size: 14px; margin-bottom: 8px;">SELL ON MAKER</h3>
+      <p style="font-size: 11px; color: var(--text-muted);">Millions of visitors</p>
+    </div>
+  </aside>
+</div>
+
+<div class="section-white">
+  <div class="section-title">
+    <h2 style="font-size: 18px;">Top Selling Items</h2>
+    <a href="/shop" style="color: var(--primary); font-size: 14px; font-weight: 700;">SEE ALL ></a>
+  </div>
+  
+  <div class="product-grid">
+    {% for product in products %}
+    <div class="product-card" onclick="location.href='/product/{{ product.id }}'">
+      <div class="card-media">
+        <img src="{{ product.image if product.image.startswith('http') else url_for('static', filename='images/products/' ~ product.image) }}" alt="{{ product.name }}" crossorigin="anonymous" onerror="this.src='{{ url_for('static', filename='images/products/sneakers.png') }}'"/>
+      </div>
+      <div class="card-body">
+        <p class="name">{{ product.name }}</p>
+        <p class="price">{{ format_price(product.price) }}</p>
+        <p class="old-price">{{ format_price(product.price * 1.2) }}</p>
+        <span class="badge-express">MAKER EXPRESS</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="section-white" style="background: var(--primary); color: white;">
+  <div class="section-title" style="border-bottom-color: rgba(255,255,255,0.2);">
+    <h2 style="font-size: 18px;">Flash Sales</h2>
+    <p style="font-size: 14px;">Time Left: 12h : 45m : 02s</p>
+  </div>
+  <div class="product-grid">
+    {% for product in products[:3] %}
+    <div class="product-card">
+      <div class="card-media">
+        <img src="{{ product.image if product.image.startswith('http') else url_for('static', filename='images/products/' ~ product.image) }}" alt="{{ product.name }}" crossorigin="anonymous" onerror="this.src='{{ url_for('static', filename='images/products/sneakers.png') }}'"/>
+      </div>
+      <div class="card-body">
+        <p class="name">{{ product.name }}</p>
+        <p class="price">{{ format_price(product.price * 0.8) }}</p>
+        <p class="old-price" style="color: rgba(255,255,255,0.6);">{{ format_price(product.price) }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

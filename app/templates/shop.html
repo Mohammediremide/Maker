@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Shop All Products | Maker{% endblock %}
+
+{% block content %}
+<div class="section-white">
+  <div class="section-title">
+    <h1 style="font-size: 20px;">All Products</h1>
+    <p style="font-size: 14px; color: var(--text-muted);">{{ products|length }} products found</p>
+  </div>
+
+  <div class="product-grid">
+    {% for product in products %}
+      <div class="product-card" onclick="location.href='/product/{{ product.id }}'">
+        <div class="card-media">
+          <img src="{{ product.image if product.image.startswith('http') else url_for('static', filename='images/products/' ~ product.image) }}" alt="{{ product.name }}" crossorigin="anonymous" onerror="this.src='{{ url_for('static', filename='images/products/sneakers.png') }}'"/>
+        </div>
+        <div class="card-body">
+          <p class="name">{{ product.name }}</p>
+          <p class="price">{{ format_price(product.price) }}</p>
+          <p class="old-price">{{ format_price(product.price * 1.2) }}</p>
+          <div style="margin-top: 8px;">
+            <button class="solid-btn add-to-cart" 
+                    onclick="event.stopPropagation();"
+                    data-id="{{ product.id }}" 
+                    data-name="{{ product.name }}" 
+                    data-price="{{ product.price }}" 
+                    data-image="{{ product.image }}">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

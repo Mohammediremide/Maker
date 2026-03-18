@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Maker | Nigeria's No. 1 Online Mall{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=2.1" />
+</head>
+<body>
+  <div class="top-banner" style="background: var(--primary); color: white;">Free delivery in Lagos on orders above NGN 20,000</div>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="/">
+        <div style="background: var(--primary); padding: 4px 8px; border-radius: 4px; color: white; line-height: 1;">M</div>
+        <span style="color: #282828; font-weight: 800; margin-left: 4px;">aker</span>
+      </a>
+      
+      <form class="search-bar" action="/shop" method="GET">
+        <input type="text" name="q" placeholder="Search products, brands and categories" value="{{ query or '' }}" />
+        <button type="submit" class="search-btn">SEARCH</button>
+      </form>
+
+      <div class="nav-actions">
+        <div class="nav-item">
+          <span style="font-size: 13px; font-weight: 700;">Hi, {{ (session.get('user_name', 'Guest')).split(' ')[0]|capitalize }}</span>
+        </div>
+        <div class="nav-item">
+          <span>Help</span>
+        </div>
+        <a href="/cart" class="nav-item cart-btn">
+          <span>Cart</span>
+          <span id="cartCount" class="badge">0</span>
+        </a>
+        {% if session.get('user_id') %}
+          <a class="nav-item" href="/logout" style="color: var(--primary);">Logout</a>
+        {% else %}
+          <a class="nav-item" href="/login">Login</a>
+        {% endif %}
+      </div>
+    </nav>
+  </header>
+
+  {% if message %}
+    <div class="flash-wrap">
+      <div class="flash {{ level|default('success') }}">{{ message }}</div>
+    </div>
+  {% endif %}
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-col">
+        <h4>About Maker</h4>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Maker Express</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Buying on Maker</h4>
+        <ul>
+          <li><a href="#">Buyer Safety Centre</a></li>
+          <li><a href="#">Delivery</a></li>
+          <li><a href="#">Maker Return Policy</a></li>
+          <li><a href="#">Digital Services</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Payment Methods</h4>
+        <ul>
+          <li><a href="#">Maker Pay</a></li>
+          <li><a href="#">Mastercard</a></li>
+          <li><a href="#">Visa</a></li>
+          <li><a href="#">Cash on Delivery</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect with us</h4>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Maker. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}?v=1.2"></script>
+  <script>
+    // Auto-dismiss flash messages after 5 seconds
+    document.addEventListener('DOMContentLoaded', () => {
+      const flash = document.querySelector('.flash-wrap');
+      if (flash) {
+        setTimeout(() => {
+          flash.style.opacity = '0';
+          flash.style.transition = 'opacity 0.6s ease';
+          setTimeout(() => flash.remove(), 600);
+        }, 5000);
+      }
+    });
+  </script>
+</body>
+</html>

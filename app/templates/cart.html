@@ -1,0 +1,375 @@
+{% extends "base.html" %}
+
+{% block title %}Your Cart | Maker{% endblock %}
+
+{% block content %}
+<style>
+  .cart-page {
+    max-width: 1100px;
+    margin: 32px auto;
+    padding: 0 16px;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 768px) {
+    .cart-page { grid-template-columns: 1fr; }
+  }
+
+  /* ── Cart Items Panel ── */
+  .cart-panel {
+    background: #fff;
+    border: 1px solid #e8ecf0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .cart-panel-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e8ecf0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cart-panel-header h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin: 0;
+  }
+  .cart-badge {
+    background: var(--primary, #00416a);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 20px;
+  }
+
+  /* ── Individual Cart Row ── */
+  .cart-row {
+    display: grid;
+    grid-template-columns: 80px 1fr auto auto auto;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid #f0f4f8;
+    transition: background 0.2s;
+  }
+  .cart-row:last-child { border-bottom: none; }
+  .cart-row:hover { background: #fafcff; }
+
+  .cart-row img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e8ecf0;
+  }
+  .cart-item-meta strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+  }
+  .cart-item-meta .item-tag {
+    font-size: 12px;
+    color: #888;
+  }
+  .cart-item-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+    white-space: nowrap;
+  }
+  .qty-control {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid #d1d9e0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .qty-control button {
+    background: #f0f4f8;
+    border: none;
+    width: 32px;
+    height: 36px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #555;
+    transition: background 0.15s;
+  }
+  .qty-control button:hover { background: #e0e8f0; }
+  .qty-input {
+    width: 40px;
+    height: 36px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid #d1d9e0;
+    border-right: 1px solid #d1d9e0;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+    outline: none;
+    -moz-appearance: textfield;
+  }
+  .qty-input::-webkit-outer-spin-button,
+  .qty-input::-webkit-inner-spin-button { display: none; }
+
+  .remove-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #c0392b;
+    font-size: 18px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background 0.15s;
+    line-height: 1;
+  }
+  .remove-btn:hover { background: rgba(192,57,43,0.1); }
+
+  /* ── Empty State ── */
+  .cart-empty-state {
+    text-align: center;
+    padding: 60px 24px;
+    display: none;
+  }
+  .cart-empty-state .empty-icon { font-size: 56px; margin-bottom: 16px; }
+  .cart-empty-state h3 { font-size: 20px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+  .cart-empty-state p { font-size: 14px; color: #888; margin-bottom: 24px; }
+
+  /* ── Order Summary Panel ── */
+  .summary-panel {
+    background: #fff;
+    border: 1px solid #e8ecf0;
+    border-radius: 12px;
+    padding: 24px;
+    position: sticky;
+    top: 80px;
+  }
+  .summary-panel h3 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e8ecf0;
+  }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  .summary-row.total {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a1a2e;
+    padding-top: 14px;
+    border-top: 2px solid #e8ecf0;
+    margin-top: 8px;
+  }
+  .summary-row.total span:last-child { color: var(--primary, #00416a); }
+  .checkout-btn {
+    display: block;
+    width: 100%;
+    background: var(--primary, #00416a);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .checkout-btn:hover { background: #00304f; transform: translateY(-1px); }
+  .secure-badge {
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    margin-top: 12px;
+  }
+</style>
+
+<div id="cartEmpty" class="cart-empty-state" style="display:none; max-width:480px; margin:80px auto;">
+  <div class="empty-icon">🛒</div>
+  <h3>Your cart is empty</h3>
+  <p>Looks like you haven't added anything yet. Explore our store and find something you love!</p>
+  <a href="/shop" class="checkout-btn" style="max-width:220px; margin: 0 auto; display:inline-block; padding: 14px 32px;">BROWSE PRODUCTS</a>
+</div>
+
+<div id="cartTable" class="cart-page" style="display:none;">
+  <!-- Left: items -->
+  <div>
+    <div class="cart-panel">
+      <div class="cart-panel-header">
+        <h2>Shopping Cart</h2>
+        <span class="cart-badge" id="cartCountTitle">0</span>
+      </div>
+      <div id="cartList"></div>
+    </div>
+    <a href="/shop" style="display:inline-flex; align-items:center; gap:6px; margin-top:16px; font-size:13px; color:var(--primary,#00416a); text-decoration:none; font-weight:600;">
+      ← Continue Shopping
+    </a>
+  </div>
+
+  <!-- Right: summary -->
+  <div>
+    <div class="summary-panel">
+      <h3>Order Summary</h3>
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">₦0</span>
+      </div>
+      <div class="summary-row">
+        <span>Delivery</span>
+        <span style="color:#2ecc71; font-weight:700;">Free</span>
+      </div>
+      <div class="summary-row">
+        <span>Discount</span>
+        <span>—</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span id="cartTotal">₦0</span>
+      </div>
+      <a class="checkout-btn" href="/checkout">CHECKOUT NOW →</a>
+      <p class="secure-badge">🔒 Secured &amp; encrypted payment</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Override renderCart for this premium layout
+  function renderCartPremium() {
+    const cartList   = document.getElementById('cartList');
+    const cartTable  = document.getElementById('cartTable');
+    const cartEmpty  = document.getElementById('cartEmpty');
+    const subtotalEl = document.getElementById('cartSubtotal');
+    const totalEl    = document.getElementById('cartTotal');
+    const countEl    = document.getElementById('cartCountTitle');
+
+    const items = getCart();
+
+    if (items.length === 0) {
+      cartEmpty.style.display = 'block';
+      cartTable.style.display  = 'none';
+      return;
+    }
+
+    cartEmpty.style.display = 'none';
+    cartTable.style.display  = 'grid';
+
+    cartList.innerHTML = '';
+    let subtotal = 0;
+
+    items.forEach((item, index) => {
+      const total = item.price * item.qty;
+      subtotal += total;
+
+      const imgSrc = resolveImageSrc(item.image);
+
+      const row = document.createElement('div');
+      row.className = 'cart-row';
+      row.innerHTML = `
+        <img src="${imgSrc}" alt="${item.name}" onerror="this.src='/static/images/products/sneakers.png'" />
+        <div class="cart-item-meta">
+          <strong>${item.name}</strong>
+          <span class="item-tag">${item.tag || ''}</span>
+        </div>
+        <div class="cart-item-price">₦${item.price.toLocaleString()}</div>
+        <div class="qty-control">
+          <button class="qty-dec" data-index="${index}">−</button>
+          <input type="number" class="qty-input" value="${item.qty}" min="1" data-index="${index}" />
+          <button class="qty-inc" data-index="${index}">+</button>
+        </div>
+        <button class="remove-btn" data-index="${index}" title="Remove">✕</button>
+      `;
+      cartList.appendChild(row);
+    });
+
+    subtotalEl.textContent = `₦${subtotal.toLocaleString()}`;
+    totalEl.textContent    = `₦${subtotal.toLocaleString()}`;
+    if (countEl) countEl.textContent = items.reduce((s, i) => s + i.qty, 0);
+
+    // Qty increment
+    document.querySelectorAll('.qty-inc').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.index, 10);
+        const cart = getCart();
+        cart[idx].qty += 1;
+        saveCart(cart);
+        renderCartPremium();
+        updateCartCount();
+      });
+    });
+
+    // Qty decrement
+    document.querySelectorAll('.qty-dec').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.index, 10);
+        const cart = getCart();
+        if (cart[idx].qty > 1) {
+          cart[idx].qty -= 1;
+          saveCart(cart);
+          renderCartPremium();
+          updateCartCount();
+        }
+      });
+    });
+
+    // Qty manual input
+    document.querySelectorAll('.qty-input').forEach(input => {
+      input.addEventListener('change', () => {
+        const idx = parseInt(input.dataset.index, 10);
+        const val = parseInt(input.value, 10);
+        const cart = getCart();
+        if (val > 0) {
+          cart[idx].qty = val;
+          saveCart(cart);
+          renderCartPremium();
+          updateCartCount();
+        }
+      });
+    });
+
+    // Remove
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.index, 10);
+        const cart = getCart();
+        cart.splice(idx, 1);
+        saveCart(cart);
+        renderCartPremium();
+        updateCartCount();
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderCartPremium();
+
+    // Keep header badge in sync
+    const countBadge = document.getElementById('cartCount');
+    if (countBadge) {
+      new MutationObserver(() => {
+        const el = document.getElementById('cartCountTitle');
+        if (el) el.textContent = countBadge.textContent;
+      }).observe(countBadge, { childList: true });
+    }
+  });
+
+  // Override the global renderCart so main.js doesn't stomp on us
+  window._origRenderCart = window.renderCart;
+  window.renderCart = renderCartPremium;
+</script>
+{% endblock %}
