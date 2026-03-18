@@ -249,6 +249,14 @@
 </div>
 
 <script>
+  // Local fallback in case main.js hasn't loaded yet
+  function _resolveImg(image) {
+    if (typeof resolveImageSrc === 'function') return resolveImageSrc(image);
+    if (!image) return '/static/images/products/sneakers.png';
+    if (image.startsWith('http://') || image.startsWith('https://')) return image;
+    return '/static/images/products/' + image;
+  }
+
   // Override renderCart for this premium layout
   function renderCartPremium() {
     const cartList   = document.getElementById('cartList');
@@ -276,7 +284,7 @@
       const total = item.price * item.qty;
       subtotal += total;
 
-      const imgSrc = resolveImageSrc(item.image);
+      const imgSrc = _resolveImg(item.image);
 
       const row = document.createElement('div');
       row.className = 'cart-row';
